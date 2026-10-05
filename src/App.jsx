@@ -29,7 +29,7 @@ const initialCourses = [
         lessons: [
           { id: 'les-init-1', title: 'Tujuan Pembelajaran dan Lingkup Materi', type: 'youtube', link: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', icon: '▶️', color: 'text-rose-500' },
           { id: 'les-init-2', title: 'Konsep Dasar Perusahaan Dagang', type: 'youtube', link: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', icon: '▶️', color: 'text-rose-500' },
-          { id: 'les-init-3', title: 'Identifikasi Dokumen Sumber', type: 'youtube', link: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', icon: '▶️', color: 'text-rose-500' }
+          { id: 'les-init-3', title: 'Identifikasi Dokumen Sumber', type: 'youtube', link: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', icon: '▶️️', color: 'text-rose-500' }
         ]
       },
       {
@@ -696,7 +696,6 @@ const Login = ({ settings }) => {
     } else {
       const lowerEmail = email.trim().toLowerCase();
 
-      // Validasi ketat berdasarkan email
       if (ADMIN_EMAILS.includes(lowerEmail)) {
         navigate('/admin/dasbor');
       } else if (lowerEmail.includes('indra') || lowerEmail.includes('rei') || lowerEmail.includes('instruktur') || lowerEmail.includes('lubisa.id')) {
@@ -707,7 +706,6 @@ const Login = ({ settings }) => {
     }
   };
 
-  // Tombol pilihan peran untuk mengisi email otomatis lalu tekan "Masuk ke Sistem"
   const handleSelectRole = (role) => {
     if (role === 'admin') {
       setEmail("adminbelajarai.zakki@gmail.com");
@@ -736,7 +734,6 @@ const Login = ({ settings }) => {
           <p className="text-slate-400 font-bold text-xs">Pilih peran di bawah atau masukkan email Anda.</p>
         </div>
 
-        {/* Tombol Pintas Pilihan Peran */}
         {!isRegister && (
           <div className="mb-6 space-y-2">
             <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider text-center mb-2">Klik Peran untuk Mengisi Otomatis:</p>
@@ -1055,36 +1052,36 @@ const LearningRoom = ({ enrolledCourses, courses }) => {
     setMessages(prev => [...prev, { sender: 'user', text: userText }]);
     setIsAiLoading(true);
 
-   
     const promptText = `Peran: Kamu adalah Tutor AI cerdas untuk mata kuliah "${currentCourse.title}" di platform LuBisa.id (Kategori: ${currentCourse.category || 'Akademik'}). Dosen pengampu: ${currentCourse.instructor || 'Dosen Pengampu'}.
 Pertanyaan Mahasiswa: ${userText}
 Instruksi: Jawab dengan ramah, akademis, ringkas (1-2 paragraf), dan solutif dalam bahasa Indonesia.`;
 
     try {
-  const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key=${import.meta.env.VITE_GEMINI_API_KEY}`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ contents: [{ parts: [{ text: promptText }] }] })
-  });
+      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key=${import.meta.env.VITE_GEMINI_API_KEY}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ contents: [{ parts: [{ text: promptText }] }] })
+      });
 
-  const data = await response.json();
+      const data = await response.json();
 
-  if (data && data.error) {
-    setMessages(prev => [...prev, { sender: 'ai', text: `[Info API] ${data.error.message || 'Kunci API atau kuota belum aktif.'}` }]);
-    return;
-  }
+      if (data && data.error) {
+        setMessages(prev => [...prev, { sender: 'ai', text: `[Info API] ${data.error.message || 'Kunci API atau kuota belum aktif.'}` }]);
+        return;
+      }
 
-  const aiReply = data?.candidates?.[0]?.content?.parts?.[0]?.text;
-  if (aiReply) {
-    setMessages(prev => [...prev, { sender: 'ai', text: aiReply }]);
-  } else {
-    setMessages(prev => [...prev, { sender: 'ai', text: "Halo! Terkait materi ini, silakan tanyakan konsep atau studi kasus yang ingin didiskusikan." }]);
-  }
-} catch (err) {
-  setMessages(prev => [...prev, { sender: 'ai', text: "Gagal terhubung ke server AI. Periksa koneksi internet Anda." }]);
-} finally {
-  setIsAiLoading(false);
-}
+      const aiReply = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+      if (aiReply) {
+        setMessages(prev => [...prev, { sender: 'ai', text: aiReply }]);
+      } else {
+        setMessages(prev => [...prev, { sender: 'ai', text: "Halo! Terkait materi ini, silakan tanyakan konsep atau studi kasus yang ingin didiskusikan." }]);
+      }
+    } catch (err) {
+      setMessages(prev => [...prev, { sender: 'ai', text: "Gagal terhubung ke server AI. Periksa koneksi internet Anda." }]);
+    } finally {
+      setIsAiLoading(false);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-[#07090e] text-white font-sans flex flex-col">
@@ -1307,7 +1304,7 @@ Instruksi: Jawab dengan ramah, akademis, ringkas (1-2 paragraf), dan solutif dal
 
             <div className="bg-[#0c1017] p-5 rounded-2xl border border-white/10 space-y-3">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-purple-900/40 border border-purple-500/30 flex items-center justify-center text-lg">👨‍🏫</div>
+                <div className="w-10 h-10 rounded-full bg-purple-900/40 border border-purple-500/30 flex items-center justify-center text-lg">👨‍‍🏫</div>
                 <div>
                   <h4 className="font-bold text-sm text-white">{currentCourse.instructor}</h4>
                   <p className="text-[11px] text-slate-400">Dosen Pengampu Mata Kuliah • LuBisa.id Faculty</p>
@@ -2109,7 +2106,6 @@ const AdminLayout = ({ settings, setSettings, courses, onApproveCourse }) => {
   );
 };
 
-// --- WIZARD COURSE BUILDER ---
 // --- WIZARD COURSE BUILDER DENGAN AI GENERATOR ---
 const CourseBuilderWizard = ({ onGoBack, onAddCourse }) => {
   const [step, setStep] = useState(1);
@@ -2124,7 +2120,6 @@ const CourseBuilderWizard = ({ onGoBack, onAddCourse }) => {
     learningPoints: ''
   });
 
-  // --- FUNGSI AI AUTO-GENERATE MODUL ---
   const handleAutoGenerateByAI = async () => {
     const topic = prompt("Masukkan topik atau mata kuliah yang ingin dibuatkan AI secara otomatis:");
     if (!topic) return;
@@ -2132,7 +2127,7 @@ const CourseBuilderWizard = ({ onGoBack, onAddCourse }) => {
     setIsAiGenerating(true);
     alert(`🤖 AI sedang meriset kurikulum untuk topik "${topic}", silakan tunggu sebentar...`);
 
-    const GEMINI_API_KEY = "";
+    const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY || "";
     const promptText = `
       Bertindaklah sebagai profesor ahli kurikulum universitas. Buatlah sebuah modul kursus e-learning mengenai topik: "${topic}".
       Berikan hasil dalam format JSON murni TANPA markdown block (tanpa backtick json), dengan struktur berikut:
@@ -2181,7 +2176,7 @@ const CourseBuilderWizard = ({ onGoBack, onAddCourse }) => {
       id: 'sec-1',  
       title: 'Bagian 1: Pengantar & Landasan Teori',  
       lessons: [
-        { id: 'les-1', title: 'Video Pembelajaran: Ruang Lingkup Materi', type: 'youtube', link: '[https://www.youtube.com](https://www.youtube.com)', icon: '▶️', color: 'text-rose-500' },
+        { id: 'les-1', title: 'Video Pembelajaran: Ruang Lingkup Materi', type: 'youtube', link: '[https://www.youtube.com](https://www.youtube.com)', icon: '▶️️', color: 'text-rose-500' },
         { id: 'les-2', title: 'Modul PDF: Ringkasan Materi Pokok', type: 'pdf', fileName: 'Modul_01.pdf', icon: '📄', color: 'text-blue-500' },
         { id: 'les-3', title: 'Asesmen 1: Evaluasi & Tugas Mandiri', type: 'assignment', desc: 'Selesaikan studi kasus transaksi dan unggah hasilnya.', passingGrade: 75, icon: '📋', color: 'text-emerald-500' }
       ]  
@@ -2531,7 +2526,7 @@ const InstructorLayout = ({ instructorProfile, setInstructorProfile, courses, on
   ]);
 
   const [liveSessions, setLiveSessions] = useState([
-    { id: 1, topic: 'Bedah Kasus Laporan Keuangan Akhir Periode', date: '18 Sep 2026', time: '19:30 WIB', platform: 'Zoom Meeting', link: 'https://zoom.us/j/998822' }
+    { id: 1, topic: 'Bedah Kasus Laporan Keuangan Akhir Periode', date: '18 Sep 2026', time: '19:30 WIB', platform: 'Zoom Meeting', link: '[https://zoom.us/j/998822](https://zoom.us/j/998822)' }
   ]);
 
   const handleDeleteItem = (setState, stateArray, id) => {
@@ -2688,7 +2683,7 @@ const InstructorLayout = ({ instructorProfile, setInstructorProfile, courses, on
             <h4 className="font-bold text-slate-800 text-sm leading-snug">{v.title}</h4>
             <div className="flex justify-between items-center text-xs text-slate-500 pt-2 border-t border-slate-100">
               <span>⏱️ {v.duration}</span>
-              <span>👁️ {v.views} tayangan</span>
+              <span>👁️️ {v.views} tayangan</span>
             </div>
           </div>
         ))}
