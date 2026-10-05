@@ -1061,40 +1061,30 @@ Pertanyaan Mahasiswa: ${userText}
 Instruksi: Jawab dengan ramah, akademis, ringkas (1-2 paragraf), dan solutif dalam bahasa Indonesia.`;
 
     try {
-      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key=${${import.meta.env.VITE_GEMINI_API_KEY}}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ contents: [{ parts: [{ text: promptText }] }] })
-      });
+  const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key=${import.meta.env.VITE_GEMINI_API_KEY}`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ contents: [{ parts: [{ text: promptText }] }] })
+  });
 
-      const data = await response.json();
+  const data = await response.json();
 
-      if (data && data.error) {
-        setMessages(prev => [...prev, { 
-          sender: 'ai', 
-          text: `[Info API] ${data.error.message || 'Kunci API atau kuota belum aktif.'}` 
-        }]);
-        return;
-      }
+  if (data && data.error) {
+    setMessages(prev => [...prev, { sender: 'ai', text: `[Info API] ${data.error.message || 'Kunci API atau kuota belum aktif.'}` }]);
+    return;
+  }
 
-      const aiReply = data?.candidates?.[0]?.content?.parts?.[0]?.text;
-      if (aiReply) {
-        setMessages(prev => [...prev, { sender: 'ai', text: aiReply }]);
-      } else {
-        setMessages(prev => [...prev, { 
-          sender: 'ai', 
-          text: "Halo! Terkait materi ini, silakan tanyakan konsep atau studi kasus yang ingin didiskusikan." 
-        }]);
-      }
-    } catch (err) {
-      setMessages(prev => [...prev, { 
-        sender: 'ai', 
-        text: "Gagal terhubung ke server AI. Periksa koneksi internet Anda." 
-      }]);
-    } finally {
-      setIsAiLoading(false);
-    }
-  };
+  const aiReply = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+  if (aiReply) {
+    setMessages(prev => [...prev, { sender: 'ai', text: aiReply }]);
+  } else {
+    setMessages(prev => [...prev, { sender: 'ai', text: "Halo! Terkait materi ini, silakan tanyakan konsep atau studi kasus yang ingin didiskusikan." }]);
+  }
+} catch (err) {
+  setMessages(prev => [...prev, { sender: 'ai', text: "Gagal terhubung ke server AI. Periksa koneksi internet Anda." }]);
+} finally {
+  setIsAiLoading(false);
+}
 
   return (
     <div className="min-h-screen bg-[#07090e] text-white font-sans flex flex-col">
