@@ -1055,7 +1055,7 @@ const LearningRoom = ({ enrolledCourses, courses }) => {
     setMessages(prev => [...prev, { sender: 'user', text: userText }]);
     setIsAiLoading(true);
 
-   const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key=${import.meta.env.VITE_GEMINI_API_KEY}`, {
+   
     const promptText = `Peran: Kamu adalah Tutor AI cerdas untuk mata kuliah "${currentCourse.title}" di platform LuBisa.id (Kategori: ${currentCourse.category || 'Akademik'}). Dosen pengampu: ${currentCourse.instructor || 'Dosen Pengampu'}.
 Pertanyaan Mahasiswa: ${userText}
 Instruksi: Jawab dengan ramah, akademis, ringkas (1-2 paragraf), dan solutif dalam bahasa Indonesia.`;
